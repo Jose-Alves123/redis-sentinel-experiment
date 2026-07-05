@@ -1,0 +1,45 @@
+services:
+  redis-machine-b-one:
+    container_name: "redis-machine-b-one"
+    image: redis
+    ports:
+      - "6381:6379"
+    command: "redis-server /etc/redis.conf"
+    volumes:
+      - "./data/one:/data/"
+      - "./slave.conf:/etc/redis.conf"
+    networks:
+      - redis-test-net
+
+  redis-machine-b-two:
+    container_name: "redis-machine-b-two"
+    image: redis
+    ports:
+      - "6382:6379"
+    command: "redis-server /etc/redis.conf"
+    volumes:
+      - "./data/two:/data/"
+      - "./slave.conf:/etc/redis.conf"
+    depends_on:
+      - redis-machine-b-one
+    networks:
+      - redis-test-net
+
+  redis-machine-b-sentinel:
+    container_name: 'redis-machine-b-sentinel'
+    image: redis
+    ports:
+      - "26380:26379"
+    command: "redis-server /etc/sentinel.conf --sentinel"
+    volumes:
+      - "./sentinel.conf:/etc/sentinel.conf"
+    depends_on:
+      - redis-machine-b-one
+      - redis-machine-b-two
+    networks:
+      - redis-test-net
+
+
+networks:
+  redis-test-net:
+    external: true

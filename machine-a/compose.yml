@@ -1,0 +1,45 @@
+services:
+  redis-machine-a-master:
+    container_name: "redis-machine-a-master"
+    image: redis
+    ports:
+      - "6379:6379"
+    command: "redis-server /etc/redis.conf"
+    volumes:
+      - "./data/master:/data/"
+      - "./master.conf:/etc/redis.conf"
+    networks:
+      - redis-test-net
+
+  redis-machine-a-slave:
+    container_name: "redis-machine-a-slave"
+    image: redis
+    ports:
+      - "6380:6379"
+    command: "redis-server /etc/redis.conf"
+    volumes:
+      - "./data/slave:/data/"
+      - "./slave.conf:/etc/redis.conf"
+    depends_on:
+      - redis-machine-a-master
+    networks:
+      - redis-test-net
+
+  redis-machine-a-sentinel:
+    container_name: 'redis-machine-a-sentinel'
+    image: redis
+    ports:
+      - "26379:26379"
+    command: "redis-server /etc/sentinel.conf --sentinel"
+    volumes:
+      - "./sentinel.conf:/etc/sentinel.conf"
+    depends_on:
+      - redis-machine-a-master
+      - redis-machine-a-slave
+    networks:
+      - redis-test-net
+
+
+networks:
+  redis-test-net:
+    external: true
