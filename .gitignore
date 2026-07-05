@@ -1,8 +1,8 @@
-/machine-a/data/master/*
-!/machine-a/data/master/.gitkeep
+/machine-a/data/one/*
+!/machine-a/data/one/.gitkeep
 
-/machine-a/data/slave/*
-!/machine-a/data/slave/.gitkeep
+/machine-a/data/two/*
+!/machine-a/data/two/.gitkeep
 
 /machine-b/data/one/*
 !/machine-b/data/one/.gitkeep

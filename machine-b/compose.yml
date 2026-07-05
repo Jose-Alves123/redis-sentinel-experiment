@@ -38,7 +38,20 @@ services:
       - redis-machine-b-two
     networks:
       - redis-test-net
-
+      
+  redis-machine-b-sentinel-two:
+    container_name: 'redis-machine-b-sentinel-two'
+    image: redis
+    ports:
+      - "26381:26379"
+    command: "redis-server /etc/sentinel.conf --sentinel"
+    volumes:
+      - "./sentinel.conf:/etc/sentinel.conf"
+    depends_on:
+      - redis-machine-b-one
+      - redis-machine-b-two
+    networks:
+      - redis-test-net
 
 networks:
   redis-test-net:
