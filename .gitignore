@@ -1,11 +1,11 @@
-/machine-a/data/one/*
-!/machine-a/data/one/.gitkeep
+/*/machine-a/data/one/*
+!/*/machine-a/data/one/.gitkeep
 
-/machine-a/data/two/*
-!/machine-a/data/two/.gitkeep
+/*/machine-a/data/two/*
+!/container-version/machine-a/data/two/.gitkeep
 
-/machine-b/data/one/*
-!/machine-b/data/one/.gitkeep
+/*/machine-b/data/one/*
+!/*/machine-b/data/one/.gitkeep
 
-/machine-b/data/two/*
-!/machine-b/data/two/.gitkeep
+/*/machine-b/data/two/*
+!/*/machine-b/data/two/.gitkeep

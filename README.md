@@ -51,3 +51,38 @@ Then inform the sentinel of the actual master
 docker exec -it redis-machine-a-sentinel redis-cli -p 26379 SENTINEL REMOVE mymaster
 docker exec -it redis-machine-a-sentinel redis-cli -p 26379 SENTINEL MONITOR mymaster <new-master-ip> 6379 1
 ```
+
+# Run Local-Version
+
+The "local-version" is the one where we run both compose files individually.
+
+```sh
+docker compose up --build
+```
+
+Experiments with putting down master and sentinel to check the agreement and who the new master is, was made sucessfully. Replication and high availability (as is possible with one two machines) are confirmed.
+
+# Run DockerFile
+
+The dockerfile version is the next step two simulate two machines.
+
+Run machine one (execute inside container-version/machine-a dir)
+
+```sh
+docker build -t redis-vm-one .
+docker run --privileged --name redis-vm-one -p 6379:6379 -p 6380:6380 -p 26379:26379 redis-vm-one
+```
+
+```sh
+docker build -t redis-vm-two .
+docker run --privileged --name redis-vm-two -p 6381:6379 -p 6382:6379 -p 26380:26379 -p 26381:26379 redis-vm-two
+```
+
+Experiment with stoping the leader and restarting it to see how the system reacts.
+
+```sh
+docker redis-machine-a-one stop
+
+docker compose start redis-machine-a-one
+docker compose up -d redis-machine-a-one
+```
