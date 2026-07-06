@@ -32,7 +32,7 @@ services:
       - "26380:26379"
     command: "redis-server /etc/sentinel.conf --sentinel"
     volumes:
-      - "./sentinel.conf:/etc/sentinel.conf"
+      - "./sentinel-one.conf:/etc/sentinel.conf"
     depends_on:
       - redis-machine-b-one
       - redis-machine-b-two
@@ -46,7 +46,7 @@ services:
       - "26381:26379"
     command: "redis-server /etc/sentinel.conf --sentinel"
     volumes:
-      - "./sentinel.conf:/etc/sentinel.conf"
+      - "./sentinel-two.conf:/etc/sentinel.conf"
     depends_on:
       - redis-machine-b-one
       - redis-machine-b-two
